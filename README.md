@@ -61,14 +61,6 @@ The **DappCrowdfunding smart contract**, developed in **Solidity**, is designed 
 - **Refund Mechanism**: Automatic refunds for backers if a project does not reach its funding goal.
 - **Validations**: Checks for correct input values and project timings.
 
-## Contributing
-
-Contributions are welcome. Please open an issue first to discuss what you would like to change or add.
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 ## Acknowledgments
 
 - Ethereum community for support and guidance.
