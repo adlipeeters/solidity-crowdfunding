@@ -1,7 +1,7 @@
 # DappCrowdfunding Smart Contract
 
 ## Website Access
-To view the live version of the lottery smart contract application, visit [Lottery Smart Contract Website](https://crowdfunding.andreidev.site/). 
+To view the live version of the lottery smart contract application, visit [Crowdfunding Website](https://crowdfunding.andreidev.site/). 
 
 **Login Credentials**:
 - Username: `andrei`
