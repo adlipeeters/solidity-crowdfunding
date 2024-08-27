@@ -1,10 +1,12 @@
 const hre = require('hardhat')
 const fs = require('fs')
+const { ethers } = require("hardhat");
 
 async function main() {
-  const contractName = 'Genesis';
+  const contractName = 'Kickstarter';
   const taxFee = 5;
-  const Contract = await hre.ethers.getContractFactory(contractName);
+  // const Contract = await hre.ethers.getContractFactory(contractName);
+  const Contract = await ethers.getContractFactory(contractName);
   const contract = await Contract.deploy(taxFee);
 
   await contract.deployed();

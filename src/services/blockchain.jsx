@@ -1,4 +1,4 @@
-import abi from '../abis/src/contracts/Genesis.sol/Genesis.json'
+import abi from '../abis/src/contracts/Kickstarter.sol/Kickstarter.json'
 import address from '../abis/contractAddress.json'
 import { getGlobalState, setGlobalState } from '../store'
 import { ethers } from 'ethers'
