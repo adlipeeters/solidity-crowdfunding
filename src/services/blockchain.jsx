@@ -8,8 +8,6 @@ const contractAddress = address.address;
 const contractAbi = abi.abi;
 let tx;
 
-// console.log(contractAddress, contractAbi)
-
 const connectWallet = async () => {
     try {
         if (!ethereum) return alert('Please install Metamask')
@@ -38,7 +36,7 @@ const isWallectConnected = async () => {
         if (accounts.length) {
             setGlobalState('connectedAccount', accounts[0]?.toLowerCase())
         } else {
-            alert('Please connect wallet.')
+            // alert('Please connect wallet.')
             console.log('No accounts found.')
         }
     } catch (error) {
@@ -46,7 +44,13 @@ const isWallectConnected = async () => {
     }
 }
 
-const getEthereumContract = async () => {
+const getReadOnlyContract = async () => {
+    const provider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_API_URL);
+    const readOnlyContract = new ethers.Contract(contractAddress, contractAbi, provider);
+    return readOnlyContract;
+}
+
+const getWriteContract = async () => {
     const connectedAccount = getGlobalState('connectedAccount')
 
     if (connectedAccount) {
@@ -70,7 +74,7 @@ const createProject = async ({
     try {
         if (!ethereum) return alert('Please install Metamask');
 
-        const contract = await getEthereumContract()
+        const contract = await getWriteContract()
         cost = ethers.utils.parseEther(cost)
         tx = await contract.createProject(title, description, imageURL, cost, expiresAt)
         await tx.wait()
@@ -90,7 +94,7 @@ const updateProject = async ({
     try {
         if (!ethereum) return alert('Please install Metamask')
 
-        const contract = await getEthereumContract()
+        const contract = await getWriteContract()
         tx = await contract.updateProject(id, title, description, imageURL, expiresAt)
         await tx.wait()
         await loadProject(id)
@@ -102,7 +106,7 @@ const updateProject = async ({
 const deleteProject = async (id) => {
     try {
         if (!ethereum) return alert('Please install Metamask')
-        const contract = await getEthereumContract()
+        const contract = await getWriteContract()
         await contract.deleteProject(id)
     } catch (error) {
         reportError(error)
@@ -111,10 +115,12 @@ const deleteProject = async (id) => {
 
 const loadProjects = async () => {
     try {
-        if (!ethereum) return alert('Please install Metamask')
+        // if (!ethereum) return alert('Please install Metamask')
 
-        const contract = await getEthereumContract()
+        // const contract = await getWriteContract()
+        const contract = await getReadOnlyContract()
         const projects = await contract.getProjects()
+        console.log(projects)
         const stats = await contract.stats()
 
         setGlobalState('stats', structureStats(stats))
@@ -127,7 +133,8 @@ const loadProjects = async () => {
 const loadProject = async (id) => {
     try {
         if (!ethereum) return alert('Please install Metamask')
-        const contract = await getEthereumContract()
+        // const contract = await getWriteContract()
+        const contract = await getReadOnlyContract()
         const project = await contract.getProject(id)
 
         setGlobalState('project', structuredProjects([project])[0])
@@ -141,7 +148,7 @@ const backProject = async (id, amount) => {
     try {
         if (!ethereum) return alert('Please install Metamask')
         const connectedAccount = getGlobalState('connectedAccount')
-        const contract = await getEthereumContract()
+        const contract = await getWriteContract()
         amount = ethers.utils.parseEther(amount)
 
         tx = await contract.backProject(id, {
@@ -159,8 +166,9 @@ const backProject = async (id, amount) => {
 
 const getBackers = async (id) => {
     try {
-        if (!ethereum) return alert('Please install Metamask')
-        const contract = await getEthereumContract()
+        // if (!ethereum) return alert('Please install Metamask')
+        // const contract = await getWriteContract()
+        const contract = await getReadOnlyContract()
         let backers = await contract.getBackers(id)
 
         setGlobalState('backers', structuredBackers(backers))
@@ -173,7 +181,7 @@ const payoutProject = async (id) => {
     try {
         if (!ethereum) return alert('Please install Metamask')
         const connectedAccount = getGlobalState('connectedAccount')
-        const contract = await getEthereumContract()
+        const contract = await getWriteContract()
 
         tx = await contract.payOutProject(id, {
             from: connectedAccount,

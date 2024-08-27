@@ -1,7 +1,7 @@
 import { setGlobalState, useGlobalState } from '../store'
 const Hero = () => {
   const [stats] = useGlobalState('stats')
-
+  const [connectedAccount] = useGlobalState('connectedAccount')
   return (
     <div className="text-center bg-white text-gray-800 py-24 px-6">
       <h1
@@ -13,15 +13,18 @@ const Hero = () => {
         {/* <span className="uppercase text-green-600">genesis.</span> */}
       </h1>
       <div className="flex justify-center items-center space-x-2">
-        <button
-          type="button"
-          className="inline-block px-6 py-2.5 bg-green-600
+        {
+          connectedAccount ? (
+            <button
+              type="button"
+              className="inline-block px-6 py-2.5 bg-green-600
         text-white font-medium text-xs leading-tight uppercase
         rounded-full shadow-md hover:bg-green-700"
-          onClick={() => setGlobalState('createModal', 'scale-100')}
-        >
-          Add Project
-        </button>
+              onClick={() => setGlobalState('createModal', 'scale-100')}
+            >
+              Add Project
+            </button>
+          ) : null}
 
         <button
           type="button"

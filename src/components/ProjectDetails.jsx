@@ -93,7 +93,7 @@ const ProjectDetails = ({ project }) => {
               </div>
 
               <div className="flex justify-start items-center space-x-2 mt-4">
-                {project?.status == 0 ? (
+                {project?.status == 0 && connectedAccount ? (
                   <button
                     type="button"
                     className="inline-block px-6 py-2.5 bg-green-600
@@ -103,7 +103,7 @@ const ProjectDetails = ({ project }) => {
                   >
                     Back Project
                   </button>
-                ) : null}
+                ) : <p className='text-green-600 font-weight-600'>Connect your wallet to back this project</p>}
 
                 {connectedAccount == project?.owner ? (
                   project?.status != 3 ? (
